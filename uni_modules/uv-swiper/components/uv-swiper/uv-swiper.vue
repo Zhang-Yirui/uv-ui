@@ -68,6 +68,10 @@
 						}"
 						controls
 						@tap="clickHandler(index)"
+						@play="onPlay"
+						@pause="onPause"
+						@ended="onEnded"
+						@fullscreenchange="onFullscreenChange"
 					></video>
 					<text
 						v-if="showTitle && $uv.test.object(item) && item.title"
@@ -131,7 +135,7 @@
 	export default {
 		name: 'uv-swiper',
 		mixins: [mpMixin, mixin, props],
-		emits: ['click','change'],
+		emits: ['click','change','videoPlay', 'videoPause', 'videoEnded', 'videoFullscreenChange'],
 		data() {
 			return {
 				currentIndex: 0
@@ -202,7 +206,23 @@
 			// 点击某个item
 			clickHandler(index) {
 				this.$emit('click', index)
-			}
+			},
+			// 视频播放事件
+			onPlay(e) {
+				this.$emit('videoPlay', e.detail)
+			},
+			// 视频暂停事件
+			onPause(e) {
+				this.$emit('videoPause', e.detail)
+			},
+			// 视频播放结束事件
+			onEnded(e) {
+				this.$emit('videoEnded', e.detail)
+			},
+			// 视频全屏事件
+			onFullscreenChange(e) {
+				this.$emit('videoFullscreenChange', e.detail)
+			},
 		},
 	}
 </script>
